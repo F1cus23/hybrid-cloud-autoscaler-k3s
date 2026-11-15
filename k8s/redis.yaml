@@ -1,0 +1,37 @@
+# Redis = "banda" centrala: cozile coada_sarcini / coada_procesare / coada_rezultate.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-baza
+  labels:
+    app: redis-baza
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-baza
+  template:
+    metadata:
+      labels:
+        app: redis-baza
+    spec:
+      containers:
+        - name: redis
+          image: redis
+          ports:
+            - containerPort: 6379
+---
+# NodePort 30474: muncitorii din Azure, dispecerul si colectorul ajung la Redis
+# prin IP-ul Tailscale al nodului + portul 30474.
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-extern
+spec:
+  type: NodePort
+  selector:
+    app: redis-baza
+  ports:
+    - port: 6379
+      targetPort: 6379
+      nodePort: 30474

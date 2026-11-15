@@ -1,0 +1,26 @@
+# Watchdog: muta pachetele "zombie" din coada_procesare inapoi in coada_sarcini
+# (de ex. cand o masina din Azure e stearsa in timp ce lucra la un pachet).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recuperator-tpi
+  labels:
+    app: recuperator-tpi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: recuperator-tpi
+  template:
+    metadata:
+      labels:
+        app: recuperator-tpi
+    spec:
+      containers:
+        - name: recuperator
+          image: ovidiuu/recuperator-tpi:v3
+          env:
+            - name: REDIS_HOST
+              value: redis-extern
+            - name: REDIS_PORT
+              value: "6379"

@@ -1,0 +1,4 @@
+# Copiaza in terraform.tfvars si completeaza. terraform.tfvars NU se urca pe GitHub.
+admin_password     = "o-parola-puternica"
+tailscale_auth_key = "tskey-auth-..."
+redis_host         = "100.x.y.z" # IP-ul Tailscale al nodului K3s

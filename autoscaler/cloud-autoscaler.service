@@ -1,0 +1,17 @@
+[Unit]
+Description=Hybrid Cloud Autoscaler for K3s
+After=network.target
+
+[Service]
+Type=simple
+User=ovidiu
+WorkingDirectory=/home/ovidiu/hybrid-cloud-autoscaler-k3s/autoscaler
+Environment=REDIS_HOST=127.0.0.1
+Environment=REDIS_PORT=30474
+Environment=TF_DIR=/home/ovidiu/hybrid-cloud-autoscaler-k3s/infra/azure
+ExecStart=/usr/bin/python3 -u /home/ovidiu/hybrid-cloud-autoscaler-k3s/autoscaler/autoscaler.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

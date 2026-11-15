@@ -1,0 +1,25 @@
+# Muncitorii locali (pe nodurile Proxmox). Scot pachete din Redis si calculeaza numere prime.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echipa-muncitori
+  labels:
+    app: echipa-muncitori
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: echipa-muncitori
+  template:
+    metadata:
+      labels:
+        app: echipa-muncitori
+    spec:
+      containers:
+        - name: muncitor-tpi
+          image: ovidiuu/muncitor-tpi:v7
+          env:
+            - name: REDIS_HOST
+              value: redis-extern
+            - name: REDIS_PORT
+              value: "6379"
